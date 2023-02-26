@@ -1,4 +1,5 @@
 {
+  "homepage": "https://viki-b90.github.io/mesto-react", 
   "name": "mesto-react",
   "version": "0.1.0",
   "private": true,
@@ -37,7 +38,6 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "https://github.com/Viki-B90/mesto-react#readme",
   "devDependencies": {
     "gh-pages": "^5.0.0"
   }
