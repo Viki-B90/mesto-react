@@ -14,26 +14,30 @@ function App() {
   const [selectedCard, setSelectedCard] = React.useState({});
 
   React.useEffect(() => {
-    function handleEscClose(event) {
-      const escape = 'Escape';
-      event.key === escape && closeAllPopups();
-    }
-
-    function handleOverlayClose(event) {
-      const eventTarget = event.target;
-      if (eventTarget.classList.contains('popup')) {
-        closeAllPopups();
-      }
-    }
-
-    window.addEventListener('keydown', handleEscClose);
-    window.addEventListener('click', handleOverlayClose);
+    document.addEventListener('keydown', handleEscClose);
+    document.addEventListener('click', handleOverlayClose);
+    document.documentElement.classList.add('popup_opened');
 
     return () => {
-      window.removeEventListener('click', handleOverlayClose);
-      window.removeEventListener('keydown', handleEscClose);
+      document.documentElement.classList.remove('popup_opened');
+      document.removeEventListener('click', handleOverlayClose);
+      document.removeEventListener('keydown', handleEscClose);
     };
   }, []);
+
+  function handleEscClose(event) {
+    const escape = 'Escape';
+    if (event.key === escape) {
+      closeAllPopups();
+    }
+  }
+
+  function handleOverlayClose(event) {
+    const eventTarget = event.target;
+    if (eventTarget.classList.contains('popup')) {
+      closeAllPopups();
+    }
+  }
 
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false);
@@ -78,10 +82,22 @@ function App() {
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
       >
-        <input type="text" className="popup__input popup__input_type_name" placeholder="Имя" required />
-        <span className="popup__error name-input-error"></span>
-        <input type="text" className="popup__input popup__input_type_info" id="info-input" name="about" placeholder="О себе" required />
-        <span className="popup__error info-input-error"></span>
+        <input
+          className="popup__input popup__input_type_name"
+          type="text"
+          placeholder="Имя"
+          required
+        />
+        <span className="popup__error name-input-error" />
+        <input
+          className="popup__input popup__input_type_info"
+          type="text"
+          id="info-input"
+          name="about"
+          placeholder="О себе"
+          required 
+        />
+        <span className="popup__error info-input-error" />
       </PopupWithForm>
       <PopupWithForm
         name={"new-avatar"}
@@ -91,7 +107,14 @@ function App() {
         isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopups}
       >
-        <input type="url" className="popup__input popup__input_type_avatar" id="link-avatar" name="avatar" placeholder="Ссылка на новый аватар" required />
+        <input
+          className="popup__input popup__input_type_avatar"
+          type="url"
+          id="link-avatar"
+          name="avatar"
+          placeholder="Ссылка на новый аватар"
+          required
+        />
         <span className="popup__error link-avatar-error"></span>
       </PopupWithForm>
       <PopupWithForm
@@ -102,12 +125,30 @@ function App() {
         isOpen={isAddPlacePopupOpen}
         onClose={closeAllPopups}
       >
-        <input type="text" className="popup__input popup__input_type_title" id="title-input" name="name" placeholder="Название" required />
-        <span className="popup__error title-input-error"></span>
-        <input type="url" className="popup__input popup__input_type_link" id="url-input" name="link" placeholder="Ссылка на картинку" required />
-        <span className="popup__error url-input-error"></span>
+        <input
+          className="popup__input popup__input_type_title"
+          type="text"
+          id="title-input"
+          name="name"
+          placeholder="Название"
+          required
+        />
+        <span className="popup__error title-input-error" />
+        <input
+          className="popup__input popup__input_type_link"
+          type="url"
+          id="url-input"
+          name="link"
+          placeholder="Ссылка на картинку"
+          required
+        />
+        <span className="popup__error url-input-error" />
       </PopupWithForm>
-      <ImagePopup card={selectedCard} isOpen={imagePopupOpen} onClose={closeAllPopups} />
+      <ImagePopup
+        card={selectedCard}
+        isOpen={imagePopupOpen}
+        onClose={closeAllPopups}
+      />
       <PopupWithForm
         name={"delete"}
         title={"Вы уверены?"}
