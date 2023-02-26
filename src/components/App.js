@@ -13,40 +13,6 @@ function App() {
   const [imagePopupOpen, setImagePopupOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState({});
 
-  React.useEffect(() => {
-    document.addEventListener('keydown', handleEscClose);
-    document.addEventListener('click', handleOverlayClose);
-    document.documentElement.classList.add('popup_opened');
-
-    return () => {
-      document.documentElement.classList.remove('popup_opened');
-      document.removeEventListener('click', handleOverlayClose);
-      document.removeEventListener('keydown', handleEscClose);
-    };
-  }, []);
-
-  function handleEscClose(event) {
-    const escape = 'Escape';
-    if (event.key === escape) {
-      closeAllPopups();
-    }
-  }
-
-  function handleOverlayClose(event) {
-    const eventTarget = event.target;
-    if (eventTarget.classList.contains('popup')) {
-      closeAllPopups();
-    }
-  }
-
-  function closeAllPopups() {
-    setIsEditProfilePopupOpen(false);
-    setIsAddPlacePopupOpen(false);
-    setIsEditAvatarPopupOpen(false);
-    setImagePopupOpen(false);
-    setSelectedCard({});
-  }
-
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
   }
@@ -62,6 +28,26 @@ function App() {
   function handleCardClick(dataCard) {
     setSelectedCard(dataCard);
     setImagePopupOpen(true);
+  }
+
+  function handleEscClose(event) {
+    if (event.key === 'Escape') {
+      closeAllPopups();
+    }
+  }
+
+  function handleOverlayClose(event) {
+     if (event.target.classList.contains('popup_opened')) {
+      closeAllPopups();
+    }
+  }
+
+  function closeAllPopups() {
+    setIsEditProfilePopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+    setIsEditAvatarPopupOpen(false);
+    setImagePopupOpen(false);
+    setSelectedCard({});
   }
 
   return (
@@ -81,6 +67,8 @@ function App() {
         buttonText={"Сохранить"}
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
+        onCloseEsc = {handleEscClose}
+        onCloseOverlay = {handleOverlayClose}
       >
         <input
           className="popup__input popup__input_type_name"
@@ -106,6 +94,8 @@ function App() {
         buttonText={"Сохранить"}
         isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopups}
+        onCloseEsc = {handleEscClose}
+        onCloseOverlay = {handleOverlayClose}
       >
         <input
           className="popup__input popup__input_type_avatar"
@@ -124,6 +114,8 @@ function App() {
         buttonText={"Создать"}
         isOpen={isAddPlacePopupOpen}
         onClose={closeAllPopups}
+        onCloseEsc = {handleEscClose}
+        onCloseOverlay = {handleOverlayClose}
       >
         <input
           className="popup__input popup__input_type_title"
@@ -148,6 +140,8 @@ function App() {
         card={selectedCard}
         isOpen={imagePopupOpen}
         onClose={closeAllPopups}
+        onCloseEsc = {handleEscClose}
+        onCloseOverlay = {handleOverlayClose}
       />
       <PopupWithForm
         name={"delete"}

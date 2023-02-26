@@ -1,6 +1,22 @@
 import React from 'react';
 
 function PopupWithForm(props) {
+  React.useEffect(() => {
+    if (props.isOpen) {
+      document.addEventListener('keydown', props.onCloseEsc);
+    } else {
+      document.removeEventListener('keydown', props.onCloseEsc);
+    }
+  }, [props.isOpen])
+
+  React.useEffect(() => {
+    if (props.isOpen) {
+      document.addEventListener('click', props.onCloseOverlay);
+    } else {
+      document.removeEventListener('click', props.onCloseOverlay);
+    }
+  }, [props.isOpen])
+
   return (
     <section className={`popup popup_${props.name} ${props.isOpen ? 'popup_opened' : ''}`} >
       <div className="popup__container">
