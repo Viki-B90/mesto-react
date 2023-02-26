@@ -30,6 +30,14 @@ function App() {
     setImagePopupOpen(true);
   }
 
+  function closeAllPopups() {
+    setIsEditProfilePopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+    setIsEditAvatarPopupOpen(false);
+    setImagePopupOpen(false);
+    setSelectedCard({});
+  }
+
   function handleEscClose(event) {
     if (event.key === 'Escape') {
       closeAllPopups();
@@ -41,15 +49,7 @@ function App() {
       closeAllPopups();
     }
   }
-
-  function closeAllPopups() {
-    setIsEditProfilePopupOpen(false);
-    setIsAddPlacePopupOpen(false);
-    setIsEditAvatarPopupOpen(false);
-    setImagePopupOpen(false);
-    setSelectedCard({});
-  }
-
+  
   return (
     <div className="App">
       <Header />
