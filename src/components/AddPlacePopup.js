@@ -1,11 +1,11 @@
-import React from "react";
+import { useEffect, useState } from 'react';
 import PopupWithForm from './PopupWithForm';
 
 function AddPlacePopup({ isOpen, onClose, onCloseEsc, onCloseOverlay, onAddPlace, renderLoading }) {
-  const [title, setTitle] = React.useState('');
-  const [link, setLink] = React.useState('');
+  const [title, setTitle] = useState('');
+  const [link, setLink] = useState('');
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isOpen) {
       setTitle('');
       setLink('');
