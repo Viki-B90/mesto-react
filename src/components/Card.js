@@ -1,19 +1,35 @@
 import React from 'react';
+import { CurrentUserContext } from '../contexts/CurrentUserContext'
 
-function Card(props) {
+function Card({ card, onCardClick, onCardLike, onCardDelete }) {
+  const currentUser = React.useContext(CurrentUserContext);
+  const isOwn = card.owner._id === currentUser._id;
+  const isLiked = card.likes.some(i => i._id === currentUser._id);
+  const cardLikeButtonClassName = (
+    `element__like ${isLiked && 'element__like_active'}`
+  );
+
   function handleCardClick() {
-    props.onCardClick(props.card);
+    onCardClick(card);
+  }
+
+  function handleLikeClick() {
+    onCardLike(card);
+  }
+
+  function handleDeleteClick() {
+    onCardDelete(card);
   }
 
   return (
     <li className="element">
-      <img className="element__image" src={props.card.link} onClick={handleCardClick} alt="" />
-      <button className="element__delete" type="button" />
+      <img className="element__image" src={card.link} onClick={handleCardClick} alt="" />
+      {isOwn && <button className='element__delete' onClick={handleDeleteClick} type="button" />}
       <div className="element__group">
-        <h2 className="element__title">{props.card.name}</h2>
+        <h2 className="element__title">{card.name}</h2>
         <div className="element__for-like">
-          <button className="element__like" type="button" />
-          <p className="element__counter-like">{props.card.likes.length}</p>
+          <button className={cardLikeButtonClassName} onClick={handleLikeClick} type="button" />
+          <p className="element__counter-like">{card.likes.length}</p>
         </div>
       </div>
     </li>
